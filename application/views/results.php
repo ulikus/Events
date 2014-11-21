@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Events Test</title>
+	<title>Events result</title>
 
 	<style type="text/css">
 
@@ -22,6 +22,10 @@
 		background-color: transparent;
 		font-weight: normal;
 	}
+
+    a.active {
+        color: #99383e;
+    }
 
 	h1 {
 		color: #444;
@@ -62,30 +66,27 @@
 		border: 1px solid #D0D0D0;
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
-    label {
-        width:250px;
-        display: block;
-        clear: both;
-    }
-    label input {
-        float: right;
-    }
 	</style>
 </head>
 <body>
 
 <div id="container">
-	<h1>Events test!</h1>
+	<h1>Events result</h1>
 	<div id="body">
-        <?php echo form_open('events/results'); ?>
-        Price<br>
-        <label>From: <?php echo form_input('price_from'); ?></label>
-        <label>To: <?php echo form_input('price_to'); ?></label>
-        <label>Date: <?php echo form_input('date', '', 'placeholder="YYYY-MM-DD"'); ?></label>
-        <label>Text to find: <?php echo form_input('text'); ?></label>
-        <?php echo form_submit('submit', 'Submit Search!'); ?>
-        <?php form_close(); ?>
-	</div>
+        <p>Sort by:</p>
+        <a href="/events/results/?order=price_desc" <?=('price_desc' == $order?'class="active"':'')?>>Price - from high to low</a><br>
+        <a href="/events/results/?order=price_asc"<?=('price_asc' == $order?'class="active"':'')?>>Price - from low to high</a><br>
+        <a href="/events/results/?order=date_desc"<?=('date_desc' == $order?'class="active"':'')?>>Date - new to old</a><br>
+        <a href="/events/results/?order=date_asc"<?=('date_asc' == $order?'class="active"':'')?>>Date - old to new</a><br>
+        <? foreach($events as $ev): ?>
+            <p>
+                From <?=date('Y-m-d', strtotime($ev['event_begin_date']))?> to <?=date('Y-m-d', strtotime($ev['event_end_date']))?>
+                <b><?=$ev['event_name']?></b>  price <?=$ev['usd']?>$ lowest (<?=$ev['min_price']?>$) count = <?=$ev['total']?>
+            </p>
+        <? endforeach; ?>
+	    <?=$pagination?>
+    </div>
+
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
 </div>
 

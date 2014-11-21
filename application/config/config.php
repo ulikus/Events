@@ -26,7 +26,7 @@ $config['base_url']	= '';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -224,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = ':IYmx%4:5T5t39eB{J5;Q!:[dU521v';
 
 /*
 |--------------------------------------------------------------------------
@@ -360,3 +360,9 @@ $config['proxy_ips'] = '';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
+
+function __autoload($class) {
+    if(strpos($class, 'EV_') === 0) {
+        include_once( APPPATH . 'core/'. $class . EXT );
+    }
+}
